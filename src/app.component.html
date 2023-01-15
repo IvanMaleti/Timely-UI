@@ -1,0 +1,276 @@
+<html>
+    <head>
+        <style>
+            .button-stop, .button-start-secondary
+            {
+                width: 130px;
+                height: 40px;
+                position: absolute;
+                top: 165px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 10px;
+            }
+
+            .button-start
+            {
+                width: 130px;
+                height: 40px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 10px;
+            }
+
+            .modal-header 
+            {
+            position: relative;
+            padding-bottom: 25px;
+
+            }
+
+            .modal-header-text
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .modal-header-button
+            {
+                position: absolute;
+                top: 5%;
+                right: 10px;
+                height: 35px;
+                width: 35px;
+                border-radius: 5px;
+                font-size: 16px;
+                text-align: center;   
+                background-color: #fefefe;
+            }
+
+            .modal-body 
+            {
+                height: 700px;
+                padding: 2px 16px;
+            }
+
+            .modal-content 
+            {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            animation-name: animatetop;
+            animation-duration: 0.4s
+            }
+            
+            .modal-body-text
+            {
+                position: absolute;
+                top: 8%;
+                left: 5%;               
+            }
+
+            .modal-body-input
+            {
+                position: absolute;
+                width: 90%;
+                height: 75px;
+                top: 15%;
+                left: 5%;   
+                border-radius: 10px;
+                font-size: 24px;
+                text-align: center;      
+            }
+
+            .update-entry-button
+            {
+                position: absolute;
+                width: 60%;
+                height: 150px;
+                bottom: 25%;
+                left: 20%;   
+                border-radius: 20px;  
+                background-color: #fefefe;
+                font-size: 24px;
+                text-align: center;                  
+            }
+
+
+
+            .allEntries 
+            { 
+                position: absolute;
+                top: 300px;
+                left: 50%;                
+                border: 1px solid rgb(34, 34, 34);
+                border-collapse: separate;
+                border-left: 0;
+                border-radius: 10px;
+                border-spacing: 0px;
+                transform: translateX(-50%);
+            }
+
+            thead 
+            {
+                display: table-header-group;
+                vertical-align: middle;
+                border-color: inherit;
+                border-collapse: separate;
+            }
+
+            tr:nth-child(even) 
+            {
+                background-color: #f2f2f2;
+            }
+            
+            th
+            {
+                background-color: #a0a0a0;
+            }   
+
+            tr 
+            {
+                display: table-row;
+                vertical-align: inherit;
+                border-color: inherit;
+            }
+
+            th, td 
+            {
+                text-align: center;   
+                padding-top: 15px;
+                padding-bottom: 15px; 
+                padding-left: 50px;
+                padding-right: 50px;
+
+                vertical-align: top;
+                border-left: 1px solid rgb(34, 34, 34);    
+            }
+
+            td 
+            {
+                border-top: 1px solid #ddd; 
+                height: 60px;
+                white-space: nowrap;
+            }
+            thead:first-child tr:first-child th:first-child, tbody:first-child tr:first-child td:first-child 
+            {
+                border-radius: 10px 0 0 0;
+            }
+            thead:last-child tr:last-child th:first-child, tbody:last-child tr:last-child td:first-child 
+            {
+                border-radius: 0 0 0 10px;
+            }
+            .container
+            {
+                height: 100%;
+            }
+            .Pagination
+            {
+                position: absolute;
+                width: 150px;
+                top: 800px;
+                left: 50%;                    
+                transform: translateX(-50%);
+                border: 1px solid black;
+                border-collapse: separate; 
+                border-radius: 10px;
+            }
+            .Pagination td
+            {
+                border: none;
+            }
+            .Pagination tr
+            {
+                border: none;
+            }
+            .Pagination :nth-child(odd)
+            {
+                border-radius: 5px;
+            }
+            .edit-entry-button
+            {
+                position: absolute;
+                width: 60%;
+                height: 50px;
+                bottom: 15px;
+                left: 20%;   
+                border-radius: 15px;  
+                background-color: #fefefe;
+                font-size: 18px;
+                text-align: center;                   
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <h1>Timely</h1>
+        <div>
+            <button #startBtn class="button-start" (click)="ClickedStart()">Start</button>
+            <button #secondaryStartBtn class="button-start-secondary" (click)="ClickedStart()">Start</button>
+            <button #stopBtn class="button-stop" (click)="ClickedStop()">Stop</button>
+            <button (click)="DeleteAllEntries()">Delete All</button>
+        </div>
+
+        <table #table class="allEntries">
+            <thead>
+              <tr><th>Project</th><th>Start</th><th>Stop</th><th>Duration</th><th style="border-radius: 0 10px 0 0;">Edit</th></tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let arr of _displayEntries;">
+                <td>{{ arr.name }}</td>
+                <td>{{ arr.startTime }}</td>
+                <td>{{ arr.endTime }}</td>
+                <td>{{ arr.duration }}</td>
+                <td><button (click)="EditEntry(arr.name)">Edit</button></td>            
+            </tr>
+              <tr *ngFor="let dummy of _emptyList"><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <table class="Pagination">
+            <tr>
+                <td (click)="ClickedPreviousPage()"><button><</button></td>
+                <td #pagiHandler></td>
+                <td (click)="ClickedNextPage()"><button>></button></td>
+            </tr>
+        </table>
+
+        <div #modal class="modal-content">
+            <div class="modal-header">
+            <h2 class="modal-header-text">Stop Timer</h2>
+            <button class="modal-header-button"(click)="CloseModal()">X</button>
+            </div>
+            <div class="modal-body">
+            <h3 class="modal-body-text">Project name*</h3>
+            <input type="text" class="modal-body-input"  placeholder="Project 1"
+                [(ngModel)]="_addName">
+            </div>
+            <button class="update-entry-button"(click)="UpdateEntry()">Stop Timer</button>
+        </div>
+
+        <div #editEntryModal class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-header-text">Edit Entry</h3>
+                <button class="modal-header-button"(click)="CloseModal()">X</button>
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-body-text">Project name*</h4>
+                <input type="text" class="modal-body-input"  placeholder="Project"
+                    [(ngModel)]="_editName">
+
+                <h4 class="modal-body-text">Start Time*</h4>
+                <input type="datetime-local" name="datetime">
+            </div>
+            <button class="edit-entry-button"(click)="FinishEditing()">Update Entry</button>            
+        </div>
+    </body>
+</html>
