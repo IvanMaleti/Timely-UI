@@ -1,3 +1,21 @@
+# First time running
+
+After you cloned the project, open terminal and navigate to the project folder  
+
+Add next two commands:  
+
+npm install  
+
+npm i xlsx --save
+
+After that, you may need to change baseApiUrl inside of projentry.service.ts file  
+
+After that, you can start the project with:  
+
+ng serve  
+
+
+
 # TimelyUI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.5.
